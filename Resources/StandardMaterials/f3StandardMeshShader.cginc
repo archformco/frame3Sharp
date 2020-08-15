@@ -112,7 +112,12 @@ VertexOutputForwardBase_f3VC vertForwardBase_f3VC (VertexInput_f3VC v)
 	o.pos = UnityObjectToClipPos(v.vertex);
 		
 	o.tex = 0;  // [RMS] no textures w/ this shader TexCoords_f3VC(v);
-	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
+
+	// [kwu]: unity 2017.4.8 -> unity 2020.1.2
+	// o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
+	o.eyeVec = float4(NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos), 0);
+	// ![kwu]
+
 	float3 normalWorld = UnityObjectToWorldNormal(v.normal);
 	#ifdef _TANGENT_TO_WORLD
 		float4 tangentWorld = float4(UnityObjectToWorldDir(v.tangent.xyz), v.tangent.w);
@@ -368,7 +373,12 @@ VertexOutputForwardAdd vertForwardAdd_f3VC(VertexInput v)
 	o.pos = UnityObjectToClipPos(v.vertex);
 
 	o.tex = TexCoords(v);
-	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
+
+	// [kwu]: unity 2017.4.8 -> unity 2020.1.2
+	// o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
+	o.eyeVec = float4(NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos), 0);
+	// ![kwu]
+
 	o.posWorld = posWorld.xyz;
 	float3 normalWorld = UnityObjectToWorldNormal(v.normal);
 #ifdef _TANGENT_TO_WORLD
