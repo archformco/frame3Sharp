@@ -181,6 +181,19 @@ namespace f3
             return lgo;
         }
 
+        public static fLineGameObject CreateLineGO(string sName, Segment3f segment, Colorf color, float fLineWidth, LineWidthType widthType)
+        {
+            GameObject go = new GameObject(sName);
+            CurveRendererImplementation curveRen = CurveRendererSource.Build(widthType);
+            curveRen.initialize(go, new Colorf(Colorf.Black, 0.75f) );
+            fLineGameObject lgo = new fLineGameObject(go, curveRen);
+            lgo.SetColor(color);
+            lgo.SetLineWidth(fLineWidth);
+            lgo.SetStart(segment.P0);
+            lgo.SetEnd(segment.P1);
+            return lgo;
+        }
+
 
         public static fCircleGameObject CreateCircleGO(string sName, float fRadius, Colorf color, float fLineWidth, LineWidthType widthType)
         {
