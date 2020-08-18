@@ -147,7 +147,10 @@ namespace f3
             OSXDesktop = 4,
             IPhone = 8,
             IPad = 16,
-            AndroidPhone = 32
+            AndroidPhone = 32,
+
+            // [kwu]: hack for webGL
+            WebGL = 64,
         }
 
         static public fDeviceType GetDeviceType()
@@ -178,6 +181,9 @@ namespace f3
                 return IsUsingVR() ? fDeviceType.WindowsVR : fDeviceType.WindowsDesktop;
             #elif UNITY_STANDALONE_OSX
                 return fDeviceType.OSXDesktop;
+            //[kwu]: hack for webGL
+            #elif UNITY_WEBGL
+                return fDeviceType.WebGL;
             #else
               throw new NotSupportedException("FPlatform.GetDeviceType: unknown device type");
             #endif
