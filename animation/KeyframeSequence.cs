@@ -52,10 +52,10 @@ namespace f3
 
     public class KeyframeSequence
     {
-        SortedList<double, Keyframe> Keys = new SortedList<double, Keyframe>();
+        public SortedList<double, Keyframe> Keys = new SortedList<double, Keyframe>();
         double validMin = 0;
         double validMax = double.MaxValue;
-        
+
 
         public double MinTime {
             get { return validMin; }
