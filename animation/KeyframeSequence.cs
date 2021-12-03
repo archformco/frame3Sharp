@@ -36,8 +36,24 @@ namespace f3
             } else {
                 double a = (parent1.Time == parent2.Time) ? 0.5 :
                                 (this.Time - parent1.Time) / (parent2.Time - parent1.Time);
-                this.Frame = Frame3f.Interpolate(parent1.Frame, parent2.Frame, (float)a);
+                // this.Frame = Frame3f.Interpolate(parent1.Frame, parent2.Frame, (float)a);
+                Frame = Interpolate(parent1.Frame, parent2.Frame, (float) a);
             }
+        }
+
+        Frame3f Interpolate(Frame3f f1, Frame3f f2, float t)
+        {
+            var q1 = f1.Rotation;
+            var q11 = new ArchformUIFrame.Core.Quaternionf(q1.x, q1.y, q1.z, q1.w);
+
+            var q2 = f2.Rotation;
+            var q22 = new ArchformUIFrame.Core.Quaternionf(q2.x, q2.y, q2.z, q2.w);
+
+            var q = ArchformUIFrame.Core.Quaternionf.Slerp(q11, q22, t, true);
+
+            return new Frame3f(
+                Vector3f.Lerp(f1.Origin, f2.Origin, t),
+                new Quaternionf(q.X, q.Y, q.Z, q.W));
         }
 
         public Keyframe(Keyframe copy)
