@@ -26,8 +26,8 @@ namespace f3
         protected fGameObject parentGO;
 
 
-        DMesh3 mesh;
-        object mesh_write_lock = new object();     // in some cases we would like to directly access internal Mesh from
+        protected DMesh3 mesh;
+        protected object mesh_write_lock = new object();     // in some cases we would like to directly access internal Mesh from
                                                    // a background thread, to avoid making mesh copies. Functions that
                                                    // internally modify .mesh will lock this first.
 
@@ -56,9 +56,9 @@ namespace f3
         }
 
 
-        const int mesh_decomp_size_thresh = 500000;
-        IViewMeshManager view_meshes = null;
-        IViewMeshManager ViewMeshes {
+        protected const int mesh_decomp_size_thresh = 500000;
+        protected IViewMeshManager view_meshes = null;
+        protected virtual IViewMeshManager ViewMeshes {
             get {
                 if ( view_meshes == null ) {
                     if (Mesh.TriangleCount > mesh_decomp_size_thresh)
@@ -77,7 +77,7 @@ namespace f3
                 view_meshes = null;
             }
         }
-        void validate_view_meshes()
+        protected virtual void validate_view_meshes()
         {
             // if view meshes are invalid, and mesh is too big, create piecewise decomp panager
             if ( (view_meshes != null)
@@ -336,7 +336,7 @@ namespace f3
             post_mesh_modified();
         }
 
-        void on_mesh_changed(bool bInvalidateSpatial = true, bool bInvalidateDecomp = true)
+        protected void on_mesh_changed(bool bInvalidateSpatial = true, bool bInvalidateDecomp = true)
         {
             if (bInvalidateSpatial) 
                 spatial = null;
@@ -355,7 +355,7 @@ namespace f3
             }
         }
 
-        void post_mesh_modified()
+        protected void post_mesh_modified()
         {
             var tmp = OnMeshModified;
             if (tmp != null)
